@@ -194,7 +194,7 @@ PACKAGES="GConf2 NetworkManager NetworkManager-gnome ORBit2 acl anaconda
     python-urlgrabber python-volume_key pyxf86config rdate readline redhat-artwork
     reiserfs-utils libreport libreport-cli libreport-python libreport-gtk libreport-newt
     libreport-plugin-rhtsupport libreport-plugin-logger libreport-plugin-bugzilla
-    rpm rpm-libs rpm-python rsyslog sed selinux-policy-targeted
+    rpm rpm-libs rpm-python libestr rsyslog rsyslog-relp sed selinux-policy-targeted
     setup sg3_utils sg3_utils-libs shared-mime-info slang smc-meera-fonts specspo sqlite startup-notification
     subscription-manager synaptics system-config-date
     system-config-keyboard ${brandpkgname}-logos ${brandpkgname}-release
@@ -548,6 +548,7 @@ usr/$LIBDIR/libsmime3.so
 usr/$LIBDIR/libssl3.so
 usr/$LIBDIR/xserver/SecurityPolicy
 usr/$LIBDIR/.*.hmac
+usr/$LIBDIR/libestr.so*
 $LIBDIR/libfipscheck.so*
 $LIBDIR/.*.hmac
 usr/bin/[

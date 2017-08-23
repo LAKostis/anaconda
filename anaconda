@@ -468,6 +468,30 @@ def startSsh():
         os.execv("/sbin/sshd", args)
         sys.exit(1)
 
+def restartRsyslog():
+    if iutil.isS390():
+        return
+
+    rsyslog_pid = None
+    # sorry rsyslog, there's no other way to re-read your
+    # config than kill you.
+    if not fork_orphan():
+        try:
+            rsyslog_fp = open("/var/run/rsyslogd.pid")
+        except IOError as e:
+            pass
+        else:
+            with rsyslog_fp:
+                rsyslog_pid = rsyslog_fp.read().split('\n')
+                if rsyslog_pid[0] is not None:
+                    try:
+                        os.kill(int(rsyslog_pid[0]), 15)
+                        time.sleep(10)
+                    except:
+                        pass
+        os.execv("/sbin/rsyslogd", ["/sbin/rsyslogd"])
+        sys.exit(1)
+
 def startDebugger(signum, frame):
     import epdb
     epdb.serve(skip=1)
@@ -844,6 +868,11 @@ if __name__ == "__main__":
         del(os.environ["LIBUSER_CONF"])
 
     users.createLuserConf(anaconda.rootPath)
+
+    if opts.syslog:
+        # enable custom rsyslog config handing, where everything from ks
+        # goes to /etc/rsyslog.d/*.conf
+        restartRsyslog()
 
     if opts.rescue:
         anaconda.rescue = True
